@@ -105,7 +105,7 @@ section{position:relative}
 .hero .sub{font-size:20px;color:#e2e4ea;max-width:44ch;margin:0 0 32px}
 .hero .cta-row{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
 .hero .mark{position:relative;justify-self:center}
-.hero .mark img{width:min(400px,80vw);border-radius:20px;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.05)}
+.hero .mark img{width:min(390px,80vw);aspect-ratio:4/5;object-fit:cover;object-position:50% 22%;border-radius:20px;box-shadow:0 40px 90px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.08)}
 .hero .mark::after{content:"";position:absolute;inset:-8% -8% -14%;z-index:-1;
   background:radial-gradient(closest-side,rgba(242,160,61,.22),transparent 70%);filter:blur(6px)}
 
@@ -275,7 +275,7 @@ section{position:relative}
         </div>
       </div>
       <div class="mark">
-        <img src="assets/infinity-mark.jpg" alt="Limited to Limitless infinity mark">
+        <img src="assets/lisa-headshot.jpg" alt="Lisa Murphy, MBA — keynote speaker">
       </div>
     </div>
   </div>
@@ -315,8 +315,7 @@ section{position:relative}
 <section class="about pad divide" id="about">
   <div class="wrap">
     <div class="grid">
-      <!-- PLACEHOLDER: Lisa headshot -->
-      <div class="photo">Photo of Lisa<br>(placeholder)</div>
+      <div class="photo"><img src="assets/lisa-headshot.jpg" alt="Lisa Murphy, MBA" style="width:100%;height:100%;object-fit:cover;object-position:50% 18%"></div>
       <div>
         <div class="section-label">About Lisa</div>
         <h2>Two decades inside real operations — not a recent pivot.</h2>
