@@ -149,13 +149,24 @@ section{position:relative}
   background:linear-gradient(135deg,var(--amber),var(--amber-2));-webkit-background-clip:text;background-clip:text;color:transparent}
 .magnet .stat .cap{margin-top:10px;color:#d6d8de;font-size:15px}
 
-/* LOGOS */
+/* LOGO RIBBON (animated, center-scaling cover-flow) */
 .logos{text-align:center}
-.logos .row{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:center;margin-top:30px}
-.logos .chip{background:#fff;border-radius:12px;padding:14px 22px;height:80px;width:172px;
-  display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.28)}
-.logos .chip img{max-height:100%;max-width:100%;width:auto;object-fit:contain;display:block}
-@media (max-width:640px){.logos .chip{width:140px;height:70px;padding:12px 16px}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.ribbon{position:relative;height:158px;margin-top:32px;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 16%,#000 84%,transparent 100%);
+          mask-image:linear-gradient(90deg,transparent 0,#000 16%,#000 84%,transparent 100%)}
+.ribbon .chip{position:absolute;top:50%;left:0;width:186px;height:98px;margin-top:-49px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(155deg,#ffffff,#e6e9ef);
+  border:1px solid rgba(255,255,255,.65);border-radius:16px;
+  box-shadow:0 16px 36px rgba(0,0,0,.4);
+  transform-origin:center center;will-change:transform,opacity;pointer-events:none}
+.ribbon .chip img{max-width:84%;max-height:74%;width:auto;object-fit:contain;display:block}
+/* static fallback (JS off / reduced motion) */
+.ribbon.static{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:center;height:auto;
+  -webkit-mask-image:none;mask-image:none}
+.ribbon.static .chip{position:static;top:auto;margin:0;transform:none!important;opacity:1!important}
+@media (max-width:640px){.ribbon{height:124px}.ribbon .chip{width:152px;height:82px;margin-top:-41px}}
 
 /* FINAL CTA */
 .final{text-align:center;background:radial-gradient(700px 400px at 50% 120%,rgba(242,160,61,.16),transparent 62%),
@@ -378,18 +389,14 @@ section{position:relative}
 </section>
 
 <!-- ===================== CLIENT / PARTNER LOGOS (per Gini) ===================== -->
-<section class="logos pad-sm divide">
+<section class="logos pad-sm divide" aria-label="Companies Lisa Murphy has worked with">
   <div class="wrap">
     <div class="section-label">20+ years across these organizations</div>
-    <div class="row">
-      <div class="chip"><img src="assets/logo-aflac.png" alt="Aflac"></div>
-      <div class="chip"><img src="assets/logo-farmers.jpg" alt="Farmers Insurance"></div>
-      <div class="chip"><img src="assets/logo-bankers.png" alt="Bankers Life"></div>
-      <div class="chip"><img src="assets/logo-1st-guard.jpeg" alt="1st Guard Insurance"></div>
-      <div class="chip"><img src="assets/logo-sandler.png" alt="Sandler Partners"></div>
-      <div class="chip"><img src="assets/logo-ai-journal.jpeg" alt="The AI Journal"></div>
-      <div class="chip"><img src="assets/logo-substack.png" alt="Substack"></div>
-    </div>
+    <div class="ribbon" id="logoRibbon"></div>
+    <!-- Accessible / crawlable list (the ribbon above is decorative) -->
+    <ul class="sr-only">
+      <li>Aflac</li><li>Farmers Insurance</li><li>Bankers Life</li><li>1st Guard Insurance</li><li>Sandler Partners</li><li>The AI Journal</li><li>Substack</li>
+    </ul>
   </div>
 </section>
 
@@ -416,6 +423,71 @@ section{position:relative}
     </div>
   </div>
 </footer>
+
+<!-- ===================== LOGO RIBBON ANIMATION ===================== -->
+<script>
+(function(){
+  var ribbon=document.getElementById('logoRibbon');
+  if(!ribbon) return;
+  var logos=[
+    {src:'assets/logo-aflac.png'},
+    {src:'assets/logo-farmers.jpg'},
+    {src:'assets/logo-bankers.png'},
+    {src:'assets/logo-1st-guard.jpeg'},
+    {src:'assets/logo-sandler.png'},
+    {src:'assets/logo-ai-journal.jpeg'},
+    {src:'assets/logo-substack.png'}
+  ];
+  var SLOT=228, SPEED=0.7, CHIPW=186;
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var items=[], raf=null, last=null, idx=0, rt=null;
+
+  function chipEl(d){
+    var c=document.createElement('div'); c.className='chip'; c.setAttribute('aria-hidden','true');
+    var i=document.createElement('img'); i.src=d.src; i.alt=''; i.loading='lazy'; i.decoding='async';
+    c.appendChild(i); return c;
+  }
+  function buildStatic(){
+    if(raf){cancelAnimationFrame(raf);raf=null;}
+    ribbon.classList.add('static'); ribbon.innerHTML='';
+    for(var k=0;k<logos.length;k++) ribbon.appendChild(chipEl(logos[k]));
+  }
+  function build(){
+    if(raf){cancelAnimationFrame(raf);raf=null;}
+    ribbon.classList.remove('static'); ribbon.innerHTML=''; items=[]; last=null; idx=0;
+    var w=ribbon.clientWidth||1000;
+    var need=Math.ceil((w*2)/SLOT)+2;
+    for(var i=0;i<need;i++){
+      var el=chipEl(logos[idx%logos.length]); idx++;
+      ribbon.appendChild(el);
+      items.push({el:el,x:i*SLOT});
+    }
+    raf=requestAnimationFrame(frame);
+  }
+  function frame(t){
+    if(last==null) last=t;
+    var dt=Math.min(50,t-last); last=t;
+    var dx=SPEED*dt/16.667;
+    var w=ribbon.clientWidth, c=w/2, cycle=items.length*SLOT, half=w*0.55;
+    for(var n=0;n<items.length;n++){
+      var it=items[n];
+      it.x-=dx;
+      if(it.x<-SLOT) it.x+=cycle;
+      var k=Math.max(0,1-Math.abs(it.x-c)/half);
+      var s=(0.68+0.54*k);
+      var o=(0.08+0.92*Math.pow(k,0.7));
+      it.el.style.transform='translateX('+(it.x-CHIPW/2).toFixed(1)+'px) scale('+s.toFixed(3)+')';
+      it.el.style.opacity=o.toFixed(3);
+      it.el.style.zIndex=''+Math.round(k*100);
+    }
+    raf=requestAnimationFrame(frame);
+  }
+  function onResize(){ clearTimeout(rt); rt=setTimeout(build,200); }
+
+  if(reduce){ buildStatic(); }
+  else { build(); window.addEventListener('resize',onResize); }
+})();
+</script>
 
 </body>
 </html>
