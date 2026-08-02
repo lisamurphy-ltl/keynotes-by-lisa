@@ -444,8 +444,16 @@ section{position:relative}
 
   function chipEl(d){
     var c=document.createElement('div'); c.className='chip'; c.setAttribute('aria-hidden','true');
-    var i=document.createElement('img'); i.src=d.src; i.alt=''; i.loading='lazy'; i.decoding='async';
+    var i=document.createElement('img'); i.src=d.src; i.alt=''; i.decoding='async';
     c.appendChild(i); return c;
+  }
+  function layout(it,w){
+    var c=w/2, half=w*0.55;
+    var k=Math.max(0,1-Math.abs(it.x-c)/half);
+    var s=(0.68+0.54*k), o=(0.08+0.92*Math.pow(k,0.7));
+    it.el.style.transform='translateX('+(it.x-CHIPW/2).toFixed(1)+'px) scale('+s.toFixed(3)+')';
+    it.el.style.opacity=o.toFixed(3);
+    it.el.style.zIndex=''+Math.round(k*100);
   }
   function buildStatic(){
     if(raf){cancelAnimationFrame(raf);raf=null;}
@@ -460,7 +468,9 @@ section{position:relative}
     for(var i=0;i<need;i++){
       var el=chipEl(logos[idx%logos.length]); idx++;
       ribbon.appendChild(el);
-      items.push({el:el,x:i*SLOT});
+      var it={el:el,x:i*SLOT};
+      items.push(it);
+      layout(it,w); /* initial paint — no stacked flash before rAF starts */
     }
     raf=requestAnimationFrame(frame);
   }
@@ -468,17 +478,12 @@ section{position:relative}
     if(last==null) last=t;
     var dt=Math.min(50,t-last); last=t;
     var dx=SPEED*dt/16.667;
-    var w=ribbon.clientWidth, c=w/2, cycle=items.length*SLOT, half=w*0.55;
+    var w=ribbon.clientWidth, cycle=items.length*SLOT;
     for(var n=0;n<items.length;n++){
       var it=items[n];
       it.x-=dx;
       if(it.x<-SLOT) it.x+=cycle;
-      var k=Math.max(0,1-Math.abs(it.x-c)/half);
-      var s=(0.68+0.54*k);
-      var o=(0.08+0.92*Math.pow(k,0.7));
-      it.el.style.transform='translateX('+(it.x-CHIPW/2).toFixed(1)+'px) scale('+s.toFixed(3)+')';
-      it.el.style.opacity=o.toFixed(3);
-      it.el.style.zIndex=''+Math.round(k*100);
+      layout(it,w);
     }
     raf=requestAnimationFrame(frame);
   }
