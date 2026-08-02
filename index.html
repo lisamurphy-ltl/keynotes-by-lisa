@@ -151,9 +151,11 @@ section{position:relative}
 
 /* LOGOS */
 .logos{text-align:center}
-.logos .row{display:flex;flex-wrap:wrap;gap:18px;justify-content:center;margin-top:26px}
-.logos .slot{width:150px;height:64px;border:1px dashed #2a3550;border-radius:10px;background:var(--panel);
-  display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px}
+.logos .row{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;align-items:center;margin-top:30px}
+.logos .chip{background:#fff;border-radius:12px;padding:14px 22px;height:80px;width:172px;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.logos .chip img{max-height:100%;max-width:100%;width:auto;object-fit:contain;display:block}
+@media (max-width:640px){.logos .chip{width:140px;height:70px;padding:12px 16px}}
 
 /* FINAL CTA */
 .final{text-align:center;background:radial-gradient(700px 400px at 50% 120%,rgba(242,160,61,.16),transparent 62%),
@@ -375,20 +377,21 @@ section{position:relative}
   </div>
 </section>
 
-<!-- ===================== CLIENT / PARTNER LOGOS (per Gini) =====================
-     Hidden from the live page until real logos are supplied — no placeholder
-     "Logo" boxes should be public. To restore: uncomment the block below and
-     drop the logo files into /assets, then swap in <img> tags.
-
+<!-- ===================== CLIENT / PARTNER LOGOS (per Gini) ===================== -->
 <section class="logos pad-sm divide">
   <div class="wrap">
-    <div class="section-label">Trusted on stages &amp; in boardrooms</div>
+    <div class="section-label">Companies I've worked with</div>
     <div class="row">
-      <img class="logo" src="assets/logo-1.png" alt="COMPANY NAME">
+      <div class="chip"><img src="assets/logo-aflac.png" alt="Aflac"></div>
+      <div class="chip"><img src="assets/logo-farmers.jpg" alt="Farmers Insurance"></div>
+      <div class="chip"><img src="assets/logo-bankers.png" alt="Bankers Life"></div>
+      <div class="chip"><img src="assets/logo-1st-guard.jpeg" alt="1st Guard Insurance"></div>
+      <div class="chip"><img src="assets/logo-sandler.png" alt="Sandler Partners"></div>
+      <div class="chip"><img src="assets/logo-unknown.jpeg" alt="AIJ"></div>
+      <div class="chip"><img src="assets/logo-substack.png" alt="Substack"></div>
     </div>
   </div>
 </section>
-================================================================================ -->
 
 <!-- ===================== FINAL CTA ===================== -->
 <section class="final pad">
