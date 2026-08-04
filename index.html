@@ -124,14 +124,14 @@ section{position:relative}
 .kcard .tag{margin-top:16px;font:600 12px/1 'Inter',sans-serif;letter-spacing:.06em;text-transform:uppercase;color:var(--teal)}
 
 /* ABOUT */
-.about .grid{display:grid;grid-template-columns:300px 1fr;gap:52px;align-items:center}
-.about .photo{width:100%;aspect-ratio:1/1;border-radius:18px;background:linear-gradient(160deg,#0f1a30,#0a1120);
-  border:1px solid var(--line);display:flex;align-items:center;justify-content:center;text-align:center;color:var(--muted);font-size:14px;padding:20px;position:relative;overflow:hidden}
-.about .photo::after{content:"";position:absolute;inset:0;background:radial-gradient(closest-side at 70% 20%,rgba(31,169,169,.16),transparent 70%)}
-.about h2{font:800 clamp(26px,3.4vw,40px)/1.12 'Archivo',sans-serif;color:#fff;margin:14px 0 20px}
-.about .body p{margin:0 0 16px;color:#d6d8de}
-.about .proof{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px}
-.about .proof .pill{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:10px 16px;font:700 14px/1.2 'Inter',sans-serif;color:#e8eaef}
+.about{padding-bottom:92px}
+.stage-banner{width:100%;max-height:600px;overflow:hidden;border-bottom:1px solid var(--line);line-height:0}
+.stage-banner img{width:100%;height:100%;max-height:600px;object-fit:cover;object-position:50% 30%;display:block}
+.about-body{max-width:780px;margin:0 auto;text-align:center;padding-top:56px}
+.about-body h2{font:800 clamp(26px,3.4vw,40px)/1.12 'Archivo',sans-serif;color:#fff;margin:14px 0 20px}
+.about-body .body p{margin:0 0 16px;color:#d6d8de}
+.about-body .proof{display:flex;flex-wrap:wrap;gap:12px;margin-top:24px;justify-content:center}
+.about-body .proof .pill{border:1px solid var(--line);background:var(--panel);border-radius:10px;padding:10px 16px;font:700 14px/1.2 'Inter',sans-serif;color:#e8eaef}
 
 /* WHAT SETS ME APART */
 .apart .cols{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;max-width:900px;margin:0 auto}
@@ -195,7 +195,7 @@ section{position:relative}
   .hero .grid{grid-template-columns:1fr;gap:38px}
   .hero .mark{order:-1}.hero .mark img{width:min(320px,70vw)}
   .keynotes .cards{grid-template-columns:1fr}
-  .about .grid{grid-template-columns:1fr;gap:30px}.about .photo{max-width:280px}
+  .stage-banner,.stage-banner img{max-height:320px}.about-body{padding-top:40px}
   .apart .cols{grid-template-columns:1fr}
   .magnet .inner{grid-template-columns:1fr;gap:30px}
   .nav-links a.link{display:none}
@@ -331,24 +331,22 @@ section{position:relative}
 </section>
 
 <!-- ===================== ABOUT LISA ===================== -->
-<section class="about pad divide" id="about">
-  <div class="wrap">
-    <div class="grid">
-      <div class="photo"><img src="assets/lisa-headshot.jpg" alt="Lisa Murphy, MBA" style="width:100%;height:100%;object-fit:cover;object-position:50% 18%"></div>
-      <div>
-        <div class="section-label">About Lisa</div>
-        <h2>Two decades inside real operations — not a recent pivot.</h2>
-        <div class="body">
-          <p>Lisa Murphy is a former COO with 20+ years leading and scaling operations, and an MBA. She's carried the weight of a business from the inside — which is why her talks land as practical systems audiences can use on Monday, not motivation that fades by Friday.</p>
-          <p>She diagnoses from the operation out, never from a template, and every talk leaves the room with one clear next step.</p>
-        </div>
-        <div class="proof">
-          <span class="pill">Former COO</span>
-          <span class="pill">20+ years in leadership</span>
-          <span class="pill">MBA</span>
-          <span class="pill">Fortune-500-caliber planning</span>
-        </div>
-      </div>
+<section class="about divide" id="about">
+  <div class="stage-banner">
+    <img src="assets/lisa-stage.png" alt="Lisa Murphy speaking on stage at Limitless Live">
+  </div>
+  <div class="wrap about-body">
+    <div class="section-label">About Lisa</div>
+    <h2>Two decades inside real operations — not a recent pivot.</h2>
+    <div class="body">
+      <p>Lisa Murphy is a former COO with 20+ years leading and scaling operations, and an MBA. She's carried the weight of a business from the inside — which is why her talks land as practical systems audiences can use on Monday, not motivation that fades by Friday.</p>
+      <p>She diagnoses from the operation out, never from a template, and every talk leaves the room with one clear next step.</p>
+    </div>
+    <div class="proof">
+      <span class="pill">Former COO</span>
+      <span class="pill">20+ years in leadership</span>
+      <span class="pill">MBA</span>
+      <span class="pill">Fortune-500-caliber planning</span>
     </div>
   </div>
 </section>
